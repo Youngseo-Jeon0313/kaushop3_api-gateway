@@ -16,22 +16,28 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class SendMessageService {
+public class MessageSender {
     private static final String QUEUE_NAME = "200212206-stock-queue";
     private final QueueMessagingTemplate messagingTemplate;
     private final ObjectMapper mapper;
 
-    public void send(StockMessageDto payload) {
+    public String send(StockMessageDto payload) {
         try {
+            String eventUUID = UUID.randomUUID().toString();
+
             Message msg = MessageBuilder.withPayload(mapper.writeValueAsString(payload))
-                    .setHeader("tid", UUID.randomUUID())
+                    .setHeader("tid", eventUUID)
                     .setHeader("phase", TransactionPhase.TRY.getType())
                     .build();
 
             messagingTemplate.send(QUEUE_NAME, msg);
             log.info("Message sent - productId : {}, stockChanged : {}", payload.getProductId(), payload.getStockChanged());
+
+            return eventUUID;
         } catch(JsonProcessingException e) {
             log.error("Serializing payload failed.");
+
+            return null;
         }
     }
 }
