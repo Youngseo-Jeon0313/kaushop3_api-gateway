@@ -17,7 +17,7 @@ public class MessageReceiver {
     private final EventService eventService;
     private final OrderService orderService;
 
-    @SqsListener(value = "2002122067-stock-result-queue", deletionPolicy = SqsMessageDeletionPolicy.ON_SUCCESS )
+    @SqsListener(value = "2020125061-stock-result-queue", deletionPolicy = SqsMessageDeletionPolicy.ON_SUCCESS )
     public void receiveStringMessage(@Header("tid") String tid,
                                      @Header("phase") String phase) {
 

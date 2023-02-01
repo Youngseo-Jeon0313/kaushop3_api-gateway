@@ -17,7 +17,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class MessageSender {
-    private static final String QUEUE_NAME = "200212206-stock-queue";
+    private static final String QUEUE_NAME = "2020125061-stock-queue";
     private final QueueMessagingTemplate messagingTemplate;
     private final ObjectMapper mapper;
 
